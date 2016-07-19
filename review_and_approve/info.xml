@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pluginInfo>
+  <author name="UrbanCode">
+    <organization>UrbanCode</organization>
+    <email>info@urbancode.com</email>
+    <website>http://urbancode.com</website>
+    <bio/>
+  </author>
+
+  <integration type="Automation"/>
+
+  <tool-description>uDeploy</tool-description>
+
+  <release-version>4.1</release-version>
+
+  <release-notes>
+      <release-note plugin-version="3">
+	Initial release
+      </release-note>
+  </release-notes>
+</pluginInfo>
