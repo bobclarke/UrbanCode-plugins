@@ -1,47 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://www.urbancode.com/PluginXMLSchema_v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <header>
-    <identifier id="com.stack1.urbancode.approve" name="Review and Approve" version="2"/>
-    <description> Plugin for managing snapshots </description>
-    <tag>Bob/Review and Approve</tag>
+    <identifier id="com.lloydsbanking.urbancode.approve" name="Review and Approve" version="4"/>
+    <description>Plugin for controlled management of a snapshot's route to live</description>
+    <tag>Lloyds Banking Group/Review and Approve</tag>
   </header>
 
-  <step-type name="Create Snapshot">
-
-    <description>Creates a Snapshot.</description>
-
+  <step-type name="Create snapshot with locked versions and soft-locked config">
+    <description>Creates a Snapshot specific to IB</description>
     <properties>
-
       <property name="application" required="true">
-        <property-ui type="textBox"
-                     label="Application"
-                     description="The aplpication in which the snapshot should be created "/>
+        <property-ui type="textBox" label="Application" description="The application in which the snapshot should be created "/>
       </property>
-
       <property name="environment" required="true">
-        <property-ui type="textBox"
-                     label="Source Environment"
+        <property-ui type="textBox" label="Source Environment"
                      description="The environment from which to take the currently deployed versions which will make up the snapshot "/>
       </property>
-
       <property name="release_type" required="true">
-        <property-ui type="textBox"
-                     label="Release type"
-                     description="PBR or BR"/>
+        <property-ui type="textBox" label="Release type" description="PBR or BR"/>
       </property>
-
       <property name="release_year" required="true">
-        <property-ui type="textBox"
-                     label="Release year"
-                     description="For example 16 17 18 etc"/>
+        <property-ui type="textBox" label="Release year" description="For example 16 17 18 etc"/>
       </property>
-
       <property name="release_month" required="true">
         <property-ui type="textBox"
-                     label="Release month"
-                     description="For example 01 02 03 04 etc"/>
-      </property>
+                     label="Release month" description="For example 01 02 03 04 etc"/> </property>
+    </properties>
+    <post-processing><![CDATA[
+        if (properties.get("exitCode") != 0) {
+            properties.put(new java.lang.String("Status"), new java.lang.String("Failure"));
+        }
+        else {
+            properties.put("Status", "Success");
+        }
+     ]]></post-processing>
 
+    <command program="${GROOVY_HOME}/bin/groovy">
+      <arg value="-cp" />
+      <arg path="classes:lib/uDeployRestClient.jar:lib/jettison-1.1.jar" />
+      <arg file="lbgCreateSnapshot.groovy"/>
+      <arg file="${PLUGIN_INPUT_PROPS}"/>
+      <arg file="${PLUGIN_OUTPUT_PROPS}"/>
+    </command>
+
+  </step-type>
+
+  <step-type name="Approve Snapshot for Environment Type">
+    <description>Sets version snd snapshot statuses for an envvironment type</description>
+
+    <properties>
+      <property name="application" required="true">
+        <property-ui type="textBox" label="Application" description=""/>
+      </property>
+      <property name="environment" required="true">
+        <property-ui type="textBox" label="Target Environment" description=""/>
+      </property>
+      <property name="snapshot" required="true">
+        <property-ui type="textBox" label="Snapshot" description=""/>
+      </property>
     </properties>
 
     <post-processing><![CDATA[
@@ -56,7 +72,7 @@
     <command program="${GROOVY_HOME}/bin/groovy">
       <arg value="-cp" />
       <arg path="classes:lib/uDeployRestClient.jar:lib/jettison-1.1.jar" />
-      <arg file="lbgCreateSnapshot.groovy"/>
+      <arg file="lbgApproveSnapshot.groovy"/>
       <arg file="${PLUGIN_INPUT_PROPS}"/>
       <arg file="${PLUGIN_OUTPUT_PROPS}"/>
     </command>

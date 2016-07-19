@@ -5,4 +5,10 @@
   <migrate to-version="2">
     <migrate-command name="Create Snapshot"/>
   </migrate>
+  <migrate to-version="3">
+    <migrate-command name="getNewSnapshotName"/>
+  </migrate>
+  <migrate to-version="4">
+    <migrate-command name="approveSnapshot"/>
+  </migrate>
 </plugin-upgrade>
