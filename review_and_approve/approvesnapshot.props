@@ -1,5 +1,5 @@
-application=Galaxy
-environment=SIT01
-snapshot=SNAPSHOT_BR_16_04_3
+application=my_test_app
+environment=DEV
+snapshot=SNAPSHOT_1.0
 udUser=admin
 udPass=admin
