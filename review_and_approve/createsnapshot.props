@@ -1,6 +1,6 @@
-application=Galaxy
-environment=SIT01
-release_type=BR
+application=my_test_app
+environment=DEV
+release_type=Full
 release_year=16
 release_month=04
 udUser=admin
