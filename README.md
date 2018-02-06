@@ -1,2 +1,2 @@
-# urbancode_plugins
-IBM Urbancode Deploy Plugins
+# urbancode-plugin-template
+A template for a custom UCD plugin.
